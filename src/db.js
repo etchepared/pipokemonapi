@@ -5,10 +5,18 @@ const path = require("path");
 const { DB_USER, DB_PASSWORD, DB_HOST } = process.env;
 
 const sequelize = new Sequelize(
-  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/pokemon`,
+  `postgres://xgbdtmhrmfzqui:4cf3a46733cc7c52b79bad8f6f2ff1a4572f377a90dee498835a5aa0aef33a7c@ec2-3-212-143-188.compute-1.amazonaws.com:5432/dae5iicbh5h99g
+`,
   {
     logging: false, // set to console.log to see the raw SQL queries
     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+    dialect: "postgres",
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
   }
 );
 const basename = path.basename(__filename);
