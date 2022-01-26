@@ -4,7 +4,11 @@ const axios = require("axios");
 const router = Router();
 const { Sequalize, Op } = require("sequelize");
 
-router.get("/pokemons", async (req, res, next) => {  
+router.get("/", async (req, res, next) => {
+  return res.send("Base de datos conectada");
+});
+
+router.get("/pokemons", async (req, res, next) => {
   if (req.query.name) {
     const { name } = req.query;
     const lowerCaseName = name.toLowerCase();
@@ -42,7 +46,8 @@ router.get("/pokemons", async (req, res, next) => {
       const selectedPokemon = {
         id: queryPokemonAPI.id,
         name: queryPokemonAPI.name,
-        image: queryPokemonAPI.sprites.other["official-artwork"]["front_default"],
+        image:
+          queryPokemonAPI.sprites.other["official-artwork"]["front_default"],
         types: queryPokemonAPI.types.map((p) => {
           return p.type.name;
         }),
@@ -69,7 +74,10 @@ router.get("/pokemons", async (req, res, next) => {
         const allAPIPokemons = {
           id: mapedPokemon.data.id,
           name: mapedPokemon.data.name,
-          image: mapedPokemon.data.sprites.other["official-artwork"]["front_default"],
+          image:
+            mapedPokemon.data.sprites.other["official-artwork"][
+              "front_default"
+            ],
           types: mapedPokemon.data.types.map((p) => {
             return p.type.name;
           }),
@@ -119,9 +127,8 @@ router.get("/pokemons", async (req, res, next) => {
 
 router.get("/pokemons/:idPokemon", async (req, res, next) => {
   const { idPokemon } = req.params;
-  
+
   try {
-    
     if (!isNaN(idPokemon)) {
       const apiPokemon = await axios
         .get(`https://pokeapi.co/api/v2/pokemon/${idPokemon}`)
